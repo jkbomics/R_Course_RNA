@@ -350,8 +350,8 @@ Type your R code in the editor above and click "Run Code" to execute.
 
     <script type="module">
         // Initialize WebR
-        import { WebR } from 'https://cdn.jsdelivr.net/npm/webr@0.2.2/dist/webr.mjs';
-        
+        //import { WebR } from 'https://cdn.jsdelivr.net/npm/webr@0.2.2/dist/webr.mjs';
+        import { WebR } from 'https://webr.r-wasm.org/v0.3.1/webr.mjs';
         let webR;
         let editor;
         let currentMode = 'quiz';
@@ -447,14 +447,17 @@ Type your R code in the editor above and click "Run Code" to execute.
         // Initialize the application
         async function init() {
             // Check if user is logged in
+            const userName = localStorage.getItem("userName");
+            const sessionStartTime = localStorage.getItem("sessionStartTime");
+            alert(sessionStartTime);
             if (!userName) {
-                showLoginScreen();
+                alert("Please Login");
                 return;
             }
             
             try {
                 // Initialize WebR
-                webR = new WebR();
+                const webR = new WebR();
                 await webR.init();
                 
                 // Initialize Ace Editor
@@ -486,60 +489,6 @@ Type your R code in the editor above and click "Run Code" to execute.
             }
         }
 
-        // Show login screen
-        function showLoginScreen() {
-            const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `
-                <div class="question-card" style="text-align: center;">
-                    <h2>🧬 Welcome to R Learning Lab</h2>
-                    <p>Enter your name to begin your transcriptomics journey:</p>
-                    <input type="text" id="userNameInput" class="input-field" placeholder="Enter your full name" 
-                           style="max-width: 300px; margin: 20px auto; display: block;" 
-                           onkeypress="if(event.key==='Enter') startSession()">
-                    <button class="mode-btn" onclick="startSession()" style="margin-top: 15px;">
-                        Start Learning Session
-                    </button>
-                    <p style="font-size: 0.9em; color: #888; margin-top: 20px;">
-                        📊 Your progress will be automatically saved and tracked
-                    </p>
-                </div>
-            `;
-            
-            // Hide mode selector and progress bar during login
-            document.querySelector('.mode-selector').style.display = 'none';
-            document.querySelector('.progress-bar').style.display = 'none';
-            document.getElementById('scoreDisplay').style.display = 'none';
-        }
-
-        // Start user session
-        window.startSession = function() {
-            const nameInput = document.getElementById('userNameInput');
-            const name = nameInput.value.trim();
-            
-            if (!name) {
-                alert('Please enter your name to continue.');
-                return;
-            }
-            
-            userName = name;
-            sessionStartTime = new Date();
-            
-            // Show interface elements
-            document.querySelector('.mode-selector').style.display = 'flex';
-            document.querySelector('.progress-bar').style.display = 'block';
-            document.getElementById('scoreDisplay').style.display = 'block';
-            
-            // Update header with user name
-            const header = document.querySelector('.header');
-            header.innerHTML = `
-                <h1>R for Transcriptomics & Single-Cell</h1>
-                <p>Lesson 1: Alphabets of R</p>
-                <p style="color: #00ffcc; font-size: 0.9em;">👤 Student: ${userName}</p>
-            `;
-            
-            // Initialize the main application
-            init();
-        };
 
         // Switch between modes
         window.switchMode = function(mode) {
@@ -970,7 +919,8 @@ window.completeLevel = function(index) {
 // ----------------------------------------------------
 
 //const API_ENDPOINT = 'https://script.google.com/macros/library/d/1OveeDCkYAHbpdqoj8KeEAenRJxEtQ3NVLtcfm1Zir6q4_D3o0_hE98GR/3'; // <--- PASTE THE URL FROM STEP 2.3!
-const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyh79Wqzl_OJIUJvKObGjyLd9TwSwcsCE-rKy7q6CykOnZEAJFYqR0XVWptDGG7L4vf/exec';
+const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyh79Wqzl_OJIUJvKObGjyLd9TwSwcsCE-rKy7q6CykOnZEAJFYqR0XVWptDGG7L4vf/exec'; // <--- PASTE THE URL FROM STEP 2.3!
+
 function saveToServer(data) {
     // Send data to the Google Apps Script Web App
     fetch(API_ENDPOINT, {
@@ -981,7 +931,7 @@ function saveToServer(data) {
         },
         body: JSON.stringify(data),
     })
-    .then(response => response.json())
+    //.then(response => response.json())
     .then(result => {
         if (result.success) {
             console.log('✅ Data saved to Google Sheet:', result);
@@ -1108,10 +1058,8 @@ window.downloadResults = function() {
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Always start with login screen
-            showLoginScreen();
+            init();
         });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992faf8f97360fac',t:'MTc2MTIwNjI3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
