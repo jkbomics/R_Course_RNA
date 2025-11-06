@@ -322,115 +322,27 @@
     </div>
 
     <script type="module">
-        // Initialize WebR
-        //import { WebR } from 'https://cdn.jsdelivr.net/npm/webr@0.2.2/dist/webr.mjs';
-        import { WebR } from 'https://webr.r-wasm.org/v0.3.1/webr.mjs';
-        let webR;
-        let editor;
-        let currentMode = 'quiz';
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let totalQuestions = 0;
-        window.userName = '';
-        window.sessionStartTime = null;
-
-        // Lesson data
-        const lessonData = {
-            "mcq": [
-                {"q": "Which symbol is used for assignment in R?", "options": ["=", "<-", "->", "=="], "answer": "<-"},
-                {"q": "What does # do in R?", "options": ["Starts a loop", "Adds two numbers", "Starts a comment", "Ends a function"], "answer": "Starts a comment"},
-                {"q": "Which function is used to find the current working directory?", "options": ["dir()", "getwd()", "wd()", "setwd()"], "answer": "getwd()"},
-                {"q": "What is the result of 2 ^ 5?", "options": ["7", "10", "25", "32"], "answer": "32"},
-                {"q": "Which operator accesses columns in a data frame?", "options": ["@", "$", ":", "[]"], "answer": "$"}
-            ],
-            "true_false": [
-                {"q": "print('Hello R') and 'Hello R' display the same output in the console.", "answer": true},
-                {"q": "= and <- always behave identically in all contexts.", "answer": false},
-                {"q": "Comments are executed by R.", "answer": false},
-                {"q": "mean(10:20) calculates the mean of integers 10 to 20.", "answer": true},
-                {"q": "A missing bracket creates a syntax error.", "answer": true}
-            ],
-            "fill": [
-                {"q": "The function used to calculate the square root is __________.", "answer": "sqrt()"},
-                {"q": "The operator used for creating sequences of numbers is __________.", "answer": ":"},
-                {"q": "The function to round numbers to the nearest integer is __________.", "answer": "round()"},
-                {"q": "To combine text strings, we use the __________ function.", "answer": "paste()"}
-            ]
-        };
-
-        const practiceExercises = [
-            {
-                title: "Basic Assignment",
-                description: "Create a variable 'x' and assign it the value 42",
-                starter: "# Assign 42 to variable x\nx <- ",
-                solution: "x <- 42\nprint(x)"
-            },
-            {
-                title: "Comments",
-                description: "Add a comment explaining what the code does",
-                starter: "# Your comment here\nmean(1:10)",
-                solution: "# Calculate the mean of numbers 1 to 10\nmean(1:10)"
-            },
-            {
-                title: "Mathematical Operations",
-                description: "Calculate the square root of 144",
-                starter: "# Calculate square root of 144\nresult <- ",
-                solution: "# Calculate square root of 144\nresult <- sqrt(144)\nprint(result)"
-            }
-        ];
-
-        const storyLevels = [
-            {
-                id: 1,
-                title: "Variable Vault",
-                description: "Master the assignment operators to unlock the vault",
-                challenge: "Create variables: name <- 'Scientist' and age <- 25",
-                completed: false
-            },
-            {
-                id: 2,
-                title: "Comment Chamber",
-                description: "Use comments to deactivate the security system",
-                challenge: "Add comments to explain: x <- 10; y <- 20; sum <- x + y",
-                completed: false
-            },
-            {
-                id: 3,
-                title: "Arithmetic Reactor",
-                description: "Solve mathematical puzzles to power the reactor",
-                challenge: "Calculate: sqrt(64), 3^4, and round(3.14159, 2)",
-                completed: false
-            },
-            {
-                id: 4,
-                title: "Directory Portal",
-                description: "Navigate the file system to find the portal",
-                challenge: "Use getwd() to find current directory",
-                completed: false
-            },
-            {
-                id: 5,
-                title: "Data Frame Door",
-                description: "Access data frame columns to open the final door",
-                challenge: "Create a data frame and use $ to access a column",
-                completed: false
-            }
-        ];
-
         
 
         // Show login screen
-        function showLoginScreen() {
+        function showLessons() {
             const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `
+			const name = localStorage.getItem("userName");
+            
+            if (!name) {
+                alert('Please enter your name to continue.');
+                window.location.href = "./Login.html";
+            }
+			
+			contentArea.innerHTML = `
                 <div class="question-card" style="text-align: center;">
                     <h2>🧬 Welcome to R Learning Lab</h2>
                     <p>Enter your name to begin your transcriptomics journey:</p>
-                    <input type="text" id="userNameInput" class="input-field" placeholder="Enter your full name" 
-                           style="max-width: 300px; margin: 20px auto; display: block;" 
-                           onkeypress="if(event.key==='Enter') startSession()">
-                    <button class="mode-btn" onclick="startSession()" style="margin-top: 15px;">
-                        Start Learning Session
+                    <button class="mode-btn" onclick="startLesson(1)" style="margin-top: 15px;">
+                        Lesson 1
+                    </button>
+                    <button class="mode-btn" onclick="startLesson(2)" style="margin-top: 15px;">
+                        Lesson 2
                     </button>
                     <p style="font-size: 0.9em; color: #888; margin-top: 20px;">
                         📊 Your progress will be automatically saved and tracked
@@ -442,26 +354,19 @@
         }
 
         // Start user session
-        window.startSession = function() {
-            const nameInput = document.getElementById('userNameInput');
-            const name = nameInput.value.trim();
-            
-            if (!name) {
-                alert('Please enter your name to continue.');
-                return;
-            }
-            
-            //window.userName = name;
-            localStorage.setItem("userName", name);
-            localStorage.setItem("sessionStartTime", new Date());
-            window.location.href = "./Lesson1.html";
+        window.startLesson = function(No) {
+			//const nameInput = document.getElementById('userNameInput');
+            const name = localStorage.getItem("userName");
+			localStorage.setItem("userName", name);
+			//alert(localStorage.getItem("userName"));
+            window.location.href = "./Lesson" + No + ".html";
         };
 
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Always start with login screen
-            showLoginScreen();
+            showLessons();
         });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992faf8f97360fac',t:'MTc2MTIwNjI3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>

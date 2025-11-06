@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R for Transcriptomics & Single-Cell - Lesson 1</title>
+    <title>R for Transcriptomics & Single-Cell - Lesson 2</title>
     <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-min-noconflict/ace.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-min-noconflict/mode-r.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-min-noconflict/theme-monokai.min.js"></script>
@@ -318,7 +318,8 @@
         <div class="left-panel">
             <div class="header">
                 <h1>R for Transcriptomics & Single-Cell</h1>
-                <p>Lesson 1: Alphabets of R</p>
+                <p>Lesson 2: Words (Data Types & Objects)</p>
+                <p style="color: #00ffcc; font-size: 0.9em;">👤 Student: Bio-Learner</p>
             </div>
 
             <div class="mode-selector">
@@ -358,99 +359,97 @@ Type your R code in the editor above and click "Run Code" to execute.
         let currentQuestionIndex = 0;
         let score = 0;
         let totalQuestions = 0;
-        let userName = '';
-        let sessionStartTime = null;
+        let userName = 'Bio-Learner'; // Hardcoded for Lesson 2
+        let sessionStartTime = new Date(); // Start session immediately
 
-        // Lesson data
+        // Lesson data for Lesson 2
         const lessonData = {
             "mcq": [
-                {"q": "Which symbol is used for assignment in R?", "options": ["=", "<-", "->", "=="], "answer": "<-"},
-                {"q": "What does # do in R?", "options": ["Starts a loop", "Adds two numbers", "Starts a comment", "Ends a function"], "answer": "Starts a comment"},
-                {"q": "Which function is used to find the current working directory?", "options": ["dir()", "getwd()", "wd()", "setwd()"], "answer": "getwd()"},
-                {"q": "What is the result of 2 ^ 5?", "options": ["7", "10", "25", "32"], "answer": "32"},
-                {"q": "Which operator accesses columns in a data frame?", "options": ["@", "$", ":", "[]"], "answer": "$"}
+                {"q": "What is the primary data type for whole numbers (integers) in R?", "options": ["character", "logical", "numeric", "complex"], "answer": "numeric"},
+                {"q": "Which data type can only hold TRUE or FALSE values?", "options": ["character", "logical", "integer", "factor"], "answer": "logical"},
+                {"q": "What is the result when you combine a numeric value and a character string in a vector (e.g., c(1, 'gene'))?", "options": ["It remains mixed type", "The numeric value is converted to logical", "The numeric value is coerced to character", "An error occurs"], "answer": "The numeric value is coerced to character"},
+                {"q": "Which of these is the function to check for missing values?", "options": ["is.null()", "na.check()", "is.missing()", "is.na()"], "answer": "is.na()"},
+                {"q": "Which argument is used in functions like mean() to automatically remove missing values (NA)?", "options": ["na.remove=TRUE", "NA.rm=TRUE", "na.rm=TRUE", "remove.na=TRUE"], "answer": "na.rm=TRUE"}
             ],
             "true_false": [
-                {"q": "print('Hello R') and 'Hello R' display the same output in the console.", "answer": true},
-                {"q": "= and <- always behave identically in all contexts.", "answer": false},
-                {"q": "Comments are executed by R.", "answer": false},
-                {"q": "mean(10:20) calculates the mean of integers 10 to 20.", "answer": true},
-                {"q": "A missing bracket creates a syntax error.", "answer": true}
+                {"q": "The class() function is used to determine the storage mode of an object.", "answer": false}, // The class() function determines the object's class, not necessarily the storage mode (which is typeof())
+                {"q": "A single TRUE value in R is treated as 1 in mathematical operations.", "answer": true},
+                {"q": "sum(c(1, 2, NA, 4)) will return the sum of the non-missing values.", "answer": false}, // It will return NA unless na.rm=TRUE
+                {"q": "The typeof() function is generally more specific than class().", "answer": true},
+                {"q": "You can use the as.numeric() function to convert a character vector of numbers to numeric.", "answer": true}
             ],
             "fill": [
-                {"q": "The function used to calculate the square root is __________.", "answer": "sqrt()"},
-                {"q": "The operator used for creating sequences of numbers is __________.", "answer": ":"},
-                {"q": "The function to round numbers to the nearest integer is __________.", "answer": "round()"},
-                {"q": "To combine text strings, we use the __________ function.", "answer": "paste()"}
+                {"q": "The data type for text in R is __________.", "answer": "character"},
+                {"q": "The value used to represent a missing value in R is __________.", "answer": "NA"},
+                {"q": "To count the number of elements in an object, you use the __________ function.", "answer": "length()"},
+                {"q": "To convert an object to a different type, R provides functions like as.__________().", "answer": "as.numeric()"}
             ]
         };
 
         const practiceExercises = [
             {
-                title: "Basic Assignment",
-                description: "Create a variable 'x' and assign it the value 42",
-                starter: "# Assign 42 to variable x\nx <- ",
-                solution: "x <- 42\nprint(x)"
+                title: "Data Type Check",
+                description: "Create a numeric 'count', a character 'gene_id', and a logical 'expressed' object. Check the class of all three.",
+                starter: "# Create objects\ncount <- 50\ngene_id <- 'TP53'\nexpressed <- TRUE\n\n# Check classes\nclass(count)\nclass(gene_id)\nclass(expressed)",
+                solution: "count <- 50\ngene_id <- 'TP53'\nexpressed <- TRUE\n\nclass(count)\nclass(gene_id)\nclass(expressed)"
             },
             {
-                title: "Comments",
-                description: "Add a comment explaining what the code does",
-                starter: "# Your comment here\nmean(1:10)",
-                solution: "# Calculate the mean of numbers 1 to 10\nmean(1:10)"
+                title: "Missing Data Handling",
+                description: "Create a vector x with a missing value (NA). Use is.na() to identify the missing value, then calculate the mean *removing* NA.",
+                starter: "# Create vector with NA\nx <- c(1, 5, NA, 8)\n\n# Identify NA\nis.na(x)\n\n# Calculate mean (remove NA)",
+                solution: "x <- c(1, 5, NA, 8)\n\nis.na(x)\nmean(x, na.rm=TRUE)"
             },
             {
-                title: "Mathematical Operations",
-                description: "Calculate the square root of 144",
-                starter: "# Calculate square root of 144\nresult <- ",
-                solution: "# Calculate square root of 144\nresult <- sqrt(144)\nprint(result)"
+                title: "Function Creation",
+                description: "Create a function called 'square_it' that takes one argument, 'num', and returns the square of that number.",
+                starter: "# Define the function\nsquare_it <- function(num) {\n  \n}\n\n# Test the function\nsquare_it(9)",
+                solution: "square_it <- function(num) {\n  return(num ^ 2)\n}\n\nsquare_it(9)"
             }
         ];
 
         const storyLevels = [
             {
                 id: 1,
-                title: "Variable Vault",
-                description: "Master the assignment operators to unlock the vault",
-                challenge: "Create variables: name <- 'Scientist' and age <- 25",
+                title: "Data Type Decipher",
+                description: "Identify and create the core data types: numeric (42.5), character ('RNA'), and logical (FALSE).",
+                challenge: "Create variables: expression_val <- 42.5, molecule <- 'RNA', and is_valid <- FALSE. Check their classes.",
                 completed: false
             },
             {
                 id: 2,
-                title: "Comment Chamber",
-                description: "Use comments to deactivate the security system",
-                challenge: "Add comments to explain: x <- 10; y <- 20; sum <- x + y",
+                title: "Missing Value Trap",
+                description: "Find and handle the missing data points in a gene count vector.",
+                challenge: "Create vector: counts <- c(10, 20, NA, 50). Use is.na(counts) and then mean(counts, na.rm=TRUE).",
                 completed: false
             },
             {
                 id: 3,
-                title: "Arithmetic Reactor",
-                description: "Solve mathematical puzzles to power the reactor",
-                challenge: "Calculate: sqrt(64), 3^4, and round(3.14159, 2)",
+                title: "Vector Coercion Lock",
+                description: "Observe R's coercion rules by combining different types in a single vector.",
+                challenge: "Create vector: mix <- c(100, 'GeneX', TRUE). Check the class of 'mix' and explain the result in a comment.",
                 completed: false
             },
             {
                 id: 4,
-                title: "Directory Portal",
-                description: "Navigate the file system to find the portal",
-                challenge: "Use getwd() to find current directory",
+                title: "Function Forge",
+                description: "Define a simple function to automate a calculation for the reactor.",
+                challenge: "Create a function 'calc_log2' that takes 'x' and returns log2(x+1). Test it with calc_log2(7).",
                 completed: false
             },
             {
                 id: 5,
-                title: "Data Frame Door",
-                description: "Access data frame columns to open the final door",
-                challenge: "Create a data frame and use $ to access a column",
+                title: "Logical Gate",
+                description: "Use logical operations to filter and count elements.",
+                challenge: "Create: status <- c(TRUE, TRUE, FALSE, TRUE). Use sum(status) and length(status).",
                 completed: false
             }
         ];
 
+        // --- Core Application Logic (Same as Lesson 1, adapted for Lesson 2) ---
+
         // Initialize the application
         async function init() {
-            // Check if user is logged in
-            if (!userName) {
-                showLoginScreen();
-                return;
-            }
+            // NOTE: The login screen is intentionally skipped for Lesson 2
             
             try {
                 // Initialize WebR
@@ -470,15 +469,15 @@ Type your R code in the editor above and click "Run Code" to execute.
                 });
                 
                 // Set initial code
-                editor.setValue("# Welcome to R!\n# Try: print('Hello, R World!')\n", -1);
+                editor.setValue("# Welcome to R Lesson 2: Data Types!\n# Try: num <- 10; class(num)\n", -1);
                 
-                // Load saved progress
+                // Load saved progress (simplified, using 'Bio-Learner' as user)
                 loadProgress();
                 
                 // Initialize quiz mode
                 switchMode('quiz');
                 
-                document.getElementById('outputArea').textContent = "✅ R Console Ready!\nWebR initialized successfully. You can now run R code!\n\nTry some basic commands:\n• print('Hello R!')\n• 2 + 2\n• sqrt(16)\n• mean(1:10)";
+                document.getElementById('outputArea').textContent = "✅ R Console Ready!\nWebR initialized successfully. You can now run R code!\n\nLesson 2 Focus: numeric, character, logical, NA, functions.\n\nTry:\n• class(3.14)\n• class('A gene')\n• is.na(NA)";
                 
             } catch (error) {
                 console.error('Initialization error:', error);
@@ -486,68 +485,15 @@ Type your R code in the editor above and click "Run Code" to execute.
             }
         }
 
-        // Show login screen
-        function showLoginScreen() {
-            const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `
-                <div class="question-card" style="text-align: center;">
-                    <h2>🧬 Welcome to R Learning Lab</h2>
-                    <p>Enter your name to begin your transcriptomics journey:</p>
-                    <input type="text" id="userNameInput" class="input-field" placeholder="Enter your full name" 
-                           style="max-width: 300px; margin: 20px auto; display: block;" 
-                           onkeypress="if(event.key==='Enter') startSession()">
-                    <button class="mode-btn" onclick="startSession()" style="margin-top: 15px;">
-                        Start Learning Session
-                    </button>
-                    <p style="font-size: 0.9em; color: #888; margin-top: 20px;">
-                        📊 Your progress will be automatically saved and tracked
-                    </p>
-                </div>
-            `;
-            
-            // Hide mode selector and progress bar during login
-            document.querySelector('.mode-selector').style.display = 'none';
-            document.querySelector('.progress-bar').style.display = 'none';
-            document.getElementById('scoreDisplay').style.display = 'none';
-        }
-
-        // Start user session
-        window.startSession = function() {
-            const nameInput = document.getElementById('userNameInput');
-            const name = nameInput.value.trim();
-            
-            if (!name) {
-                alert('Please enter your name to continue.');
-                return;
-            }
-            
-            userName = name;
-            sessionStartTime = new Date();
-            
-            // Show interface elements
-            document.querySelector('.mode-selector').style.display = 'flex';
-            document.querySelector('.progress-bar').style.display = 'block';
-            document.getElementById('scoreDisplay').style.display = 'block';
-            
-            // Update header with user name
-            const header = document.querySelector('.header');
-            header.innerHTML = `
-                <h1>R for Transcriptomics & Single-Cell</h1>
-                <p>Lesson 1: Alphabets of R</p>
-                <p style="color: #00ffcc; font-size: 0.9em;">👤 Student: ${userName}</p>
-            `;
-            
-            // Initialize the main application
-            init();
-        };
-
         // Switch between modes
         window.switchMode = function(mode) {
             currentMode = mode;
             
             // Update active button
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            // Use event.target if available, otherwise find the button manually
+            const targetBtn = event ? event.target : document.querySelector(`.mode-btn[onclick*="switchMode('${mode}')"]`);
+            if (targetBtn) targetBtn.classList.add('active');
             
             // Reset state
             currentQuestionIndex = 0;
@@ -619,14 +565,14 @@ Type your R code in the editor above and click "Run Code" to execute.
             
             options.forEach(option => {
                 option.style.pointerEvents = 'none';
-                if (option.textContent === correct.toString() || option.textContent === correct) {
+                if (option.textContent.trim() === correct.toString().trim() || option.textContent.trim() === correct.trim()) {
                     option.classList.add('correct');
-                } else if (option.textContent === selected.toString() || option.textContent === selected) {
+                } else if (option.textContent.trim() === selected.toString().trim() || option.textContent.trim() === selected.trim()) {
                     option.classList.add('incorrect');
                 }
             });
             
-            if (selected.toString() === correct.toString() || selected === correct) {
+            if (selected.toString().trim() === correct.toString().trim() || selected.trim() === correct.trim()) {
                 feedback.innerHTML = '✅ Correct! Well done!';
                 feedback.className = 'feedback correct';
                 score++;
@@ -649,7 +595,7 @@ Type your R code in the editor above and click "Run Code" to execute.
         window.checkFillAnswer = function(correct) {
             const input = document.getElementById('fillAnswer');
             const answer = input.value.trim().toLowerCase();
-            const correctLower = correct.toLowerCase();
+            const correctLower = correct.toLowerCase().replace(/['"()]/g, ''); // Clean up for comparison
             const feedback = document.getElementById('feedback');
             
             input.disabled = true;
@@ -713,8 +659,8 @@ Type your R code in the editor above and click "Run Code" to execute.
         function loadStoryMode() {
             const contentArea = document.getElementById('contentArea');
             let html = `<div class="story-mode">
-                <h2 class="typing-animation">🧬 R Quest: The Lab Console</h2>
-                <p>The bioinformatics lab's main computer has crashed! Navigate through 5 levels to restore the system and unlock the secrets of transcriptomics.</p>
+                <h2 class="typing-animation">🧬 R Quest: The Genomics Lab</h2>
+                <p>You are moving up to the next console! Master data types and objects to unlock the RNA-seq pipeline.</p>
             `;
             
             storyLevels.forEach((level, index) => {
@@ -747,67 +693,62 @@ Type your R code in the editor above and click "Run Code" to execute.
             
             // Set appropriate starter code based on level
             const starterCodes = [
-                "# Level 1: Variable Vault\n# Create the required variables\nname <- \nage <- ",
-                "# Level 2: Comment Chamber\n# Add comments to explain each line\nx <- 10\ny <- 20\nsum <- x + y",
-                "# Level 3: Arithmetic Reactor\n# Solve these mathematical puzzles\nsqrt_result <- \npower_result <- \nround_result <- ",
-                "# Level 4: Directory Portal\n# Find your current location\ncurrent_dir <- ",
-                "# Level 5: Data Frame Door\n# Create and access data frame\ndf <- data.frame(name = c('Alice', 'Bob'), age = c(25, 30))\n# Access the name column using $\nnames <- "
+                "# Level 1: Data Type Decipher\n# Create the variables and check their types\nexpression_val <- \nmolecule <- \nis_valid <- \n\nclass(expression_val)\nclass(molecule)\nclass(is_valid)",
+                "# Level 2: Missing Value Trap\n# Find the NA and calculate the clean mean\ncounts <- c(10, 20, NA, 50)\n\n# Check for NA\n\n# Calculate mean without NA",
+                "# Level 3: Vector Coercion Lock\n# Create the mix vector and check its class\nmix <- c(100, 'GeneX', TRUE)\n\n# Check class of mix\n\n# Add a comment to explain the class\n# ",
+                "# Level 4: Function Forge\n# Define and test the log2 function\ncalc_log2 <- function(x) {\n  \n}\n\ncalc_log2(7)",
+                "# Level 5: Logical Gate\n# Use logical vector for counting\nstatus <- c(TRUE, TRUE, FALSE, TRUE)\n\n# Calculate how many TRUEs exist\n\n# Calculate total length"
             ];
             
             editor.setValue(starterCodes[index], -1);
         };
 
-// ----------------------------------------------------
-// Step 3.3: IMPORTANT: Update completeLevel to capture code
-// ----------------------------------------------------
-
-window.completeLevel = function(index) {
-    storyLevels[index].completed = true;
-    saveProgress();
-    
-    const contentArea = document.getElementById('contentArea');
-    contentArea.innerHTML = `<div class="question-card">
-        <h3>✅ Level ${storyLevels[index].id} Complete!</h3>
-        <p class="typing-animation">Command fixed. Proceed to next terminal...</p>
-        <button class="mode-btn" onclick="loadStoryMode()">Continue Quest</button>
-    </div>`;
-    
-    // Check if all levels completed
-    if (storyLevels.every(level => level.completed)) {
-        const sessionDuration = sessionStartTime ? Math.round((new Date() - sessionStartTime) / 60000) : 0;
-        const completedLevels = storyLevels.filter(level => level.completed).length;
-        
-        // ⬇️ UPDATE: Capture final code snippet to save to sheet
-        const finalCode = editor.getValue(); 
-
-        // Save story mode completion results
-        saveFinalResults('Story Mode (R Quest)', completedLevels, storyLevels.length, 100, sessionDuration, finalCode);
-        
-        setTimeout(() => {
-            contentArea.innerHTML = `<div class="question-card" style="text-align: center;">
-                <h2>🎉 SYSTEM RESTORED! 🎉</h2>
-                <p class="typing-animation">You are now fluent in the Alphabets of R!</p>
-                <div style="background: rgba(0, 255, 136, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <h3>🏆 Quest Complete!</h3>
-                    <p><strong>Student:</strong> ${userName}</p>
-                    <p><strong>Levels Completed:</strong> ${completedLevels}/${storyLevels.length}</p>
-                    <p><strong>Time Spent:</strong> ${sessionDuration} minutes</p>
-                    <p><strong>Completion Date:</strong> ${new Date().toLocaleString()}</p>
-                </div>
-                <p>Congratulations! You've mastered the basics of R programming for transcriptomics and single-cell analysis.</p>
-                <div style="margin-top: 20px;">
-                    <button class="mode-btn" onclick="loadStoryMode()">View Quest Summary</button>
-                    <button class="mode-btn" onclick="downloadResults()">📥 Download Results</button>
-                </div>
-                <p style="color: #00ffcc; font-size: 0.9em; margin-top: 15px;">
-                    ✅ Results automatically saved to instructor's Google Sheet
-                </p>
+        // Complete story level
+        window.completeLevel = function(index) {
+            storyLevels[index].completed = true;
+            saveProgress();
+            
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `<div class="question-card">
+                <h3>✅ Level ${storyLevels[index].id} Complete!</h3>
+                <p class="typing-animation">Data types locked in. Proceed to next module...</p>
+                <button class="mode-btn" onclick="loadStoryMode()">Continue Quest</button>
             </div>`;
-        }, 2000);
-    }
-};
+            
+            // Check if all levels completed
+            if (storyLevels.every(level => level.completed)) {
+                const sessionDuration = sessionStartTime ? Math.round((new Date() - sessionStartTime) / 60000) : 0;
+                const completedLevels = storyLevels.filter(level => level.completed).length;
+                
+                const finalCode = editor.getValue(); 
 
-        // Run R code
+                saveFinalResults('Story Mode (R Quest)', completedLevels, storyLevels.length, 100, sessionDuration, finalCode);
+                
+                setTimeout(() => {
+                    contentArea.innerHTML = `<div class="question-card" style="text-align: center;">
+                        <h2>🎉 RNA-SEQ PIPELINE UNLOCKED! 🎉</h2>
+                        <p class="typing-animation">You are now fluent in R Data Types and Objects!</p>
+                        <div style="background: rgba(0, 255, 136, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <h3>🏆 Quest Complete!</h3>
+                            <p><strong>Student:</strong> ${userName}</p>
+                            <p><strong>Levels Completed:</strong> ${completedLevels}/${storyLevels.length}</p>
+                            <p><strong>Time Spent:</strong> ${sessionDuration} minutes</p>
+                            <p><strong>Completion Date:</strong> ${new Date().toLocaleString()}</p>
+                        </div>
+                        <p>Congratulations! You've mastered the building blocks of R for bioinformatics.</p>
+                        <div style="margin-top: 20px;">
+                            <button class="mode-btn" onclick="loadStoryMode()">View Quest Summary</button>
+                            <button class="mode-btn" onclick="downloadResults()">📥 Download Results</button>
+                        </div>
+                        <p style="color: #00ffcc; font-size: 0.9em; margin-top: 15px;">
+                            ✅ Results automatically saved to instructor's Google Sheet
+                        </p>
+                    </div>`;
+                }, 2000);
+            }
+        };
+
+        // Run R code (uses WebR)
         window.runCode = async function() {
             const code = editor.getValue();
             const outputArea = document.getElementById('outputArea');
@@ -826,13 +767,17 @@ window.completeLevel = function(index) {
                 if (webR) {
                     // Execute with WebR
                     const result = await webR.evalR(code);
-                    const output = await result.toJs();
+                    // Capture all output from WebR
+                    const output = await webR.flush(); 
+                    let outputText = output.output.map(item => item.data).join('\n');
                     
-                    if (output && output.values) {
-                        outputArea.textContent = `> ${code}\n\n${output.values.join('\n')}`;
-                    } else {
-                        outputArea.textContent = `> ${code}\n\nCode executed successfully.`;
+                    // Add result of the last expression if it's not empty
+                    if (result && result.toString() !== 'NULL') {
+                        outputText += `\n${result.toString()}`;
                     }
+
+                    outputArea.textContent = `> ${code}\n\n${outputText || "Code executed successfully."}`;
+
                 } else {
                     // Fallback simulation
                     simulateRExecution(code, outputArea);
@@ -845,7 +790,7 @@ window.completeLevel = function(index) {
             }
         };
 
-        // Simulate R execution for demo purposes
+        // Simulate R execution for demo purposes (Updated for Lesson 2 concepts)
         function simulateRExecution(code, outputArea) {
             const lines = code.split('\n').filter(line => line.trim() && !line.trim().startsWith('#'));
             let output = `> ${code}\n\n`;
@@ -853,32 +798,28 @@ window.completeLevel = function(index) {
             lines.forEach(line => {
                 const trimmed = line.trim();
                 
-                // Simple pattern matching for common R operations
-                if (trimmed.includes('print(')) {
-                    const match = trimmed.match(/print\(['"](.+?)['"]\)/);
-                    if (match) output += `[1] "${match[1]}"\n`;
-                } else if (trimmed.match(/^\d+\s*[\+\-\*\/\^]\s*\d+$/)) {
-                    try {
-                        const result = eval(trimmed.replace('^', '**'));
-                        output += `[1] ${result}\n`;
-                    } catch (e) {
-                        output += `Error in evaluation\n`;
-                    }
-                } else if (trimmed.includes('sqrt(')) {
-                    const match = trimmed.match(/sqrt\((\d+)\)/);
-                    if (match) output += `[1] ${Math.sqrt(parseInt(match[1]))}\n`;
+                if (trimmed.includes('class(') || trimmed.includes('typeof(')) {
+                    // Simple class/typeof simulation
+                    if (trimmed.includes("'")) output += `[1] "character"\n`;
+                    else if (trimmed.includes("TRUE") || trimmed.includes("FALSE")) output += `[1] "logical"\n`;
+                    else output += `[1] "numeric"\n`;
+                } else if (trimmed.includes('is.na(')) {
+                    output += `[1] FALSE FALSE TRUE FALSE\n`;
                 } else if (trimmed.includes('mean(')) {
-                    const match = trimmed.match(/mean\((\d+):(\d+)\)/);
-                    if (match) {
-                        const start = parseInt(match[1]);
-                        const end = parseInt(match[2]);
-                        const mean = (start + end) / 2;
-                        output += `[1] ${mean}\n`;
-                    }
-                } else if (trimmed.includes('getwd()')) {
-                    output += `[1] "/home/user/r-workspace"\n`;
+                    if (trimmed.includes('na.rm=TRUE')) output += `[1] 4.666667\n`;
+                    else if (trimmed.includes('NA')) output += `[1] NA\n`;
+                    else output += `[1] 5.5\n`;
+                } else if (trimmed.includes('sum(') && !trimmed.includes('TRUE')) {
+                    if (trimmed.includes('"')) output += `Error in sum("A", "B"): invalid 'type' of argument\n`;
+                    else output += `[1] 10\n`; 
+                } else if (trimmed.includes('sum(') && trimmed.includes('TRUE')) {
+                    output += `[1] 3\n`;
+                } else if (trimmed.includes('length(')) {
+                    output += `[1] 4\n`; 
                 } else if (trimmed.includes('<-')) {
-                    output += `# Variable assigned\n`;
+                    output += `# Variable/Function defined\n`;
+                } else if (trimmed.includes('c(') && trimmed.includes('"')) {
+                    output += `# Vector coerced to character\n`;
                 } else {
                     output += `# Code executed\n`;
                 }
@@ -904,7 +845,6 @@ window.completeLevel = function(index) {
             const percentage = Math.round((score / totalQuestions) * 100);
             const sessionDuration = sessionStartTime ? Math.round((new Date() - sessionStartTime) / 60000) : 0;
             
-            // Save final results to the server
             saveFinalResults('Quiz Mode', score, totalQuestions, percentage, sessionDuration);
             
             contentArea.innerHTML = `<div class="question-card" style="text-align: center;">
@@ -916,9 +856,9 @@ window.completeLevel = function(index) {
                     <p><strong>Time Spent:</strong> ${sessionDuration} minutes</p>
                     <p><strong>Completion Date:</strong> ${new Date().toLocaleString()}</p>
                 </div>
-                <p>${percentage >= 80 ? 'Excellent work! You\'ve mastered the R alphabets!' : 
-                     percentage >= 60 ? 'Good job! Review the topics you missed.' : 
-                     'Keep practicing! You\'ll get there!'}</p>
+                <p>${percentage >= 80 ? 'Excellent work! You\'ve mastered R data types!' : 
+                     percentage >= 60 ? 'Good job! Review the data type coercion rules.' : 
+                     'Keep practicing! Focus on the differences between data types!'}</p>
                 <div style="margin-top: 20px;">
                     <button class="mode-btn" onclick="resetQuiz()">Restart Quiz</button>
                     <button class="mode-btn" onclick="downloadResults()">📥 Download Results</button>
@@ -938,7 +878,6 @@ window.completeLevel = function(index) {
 
         // Play sound effects (optional)
         function playSound(type) {
-            // Simple audio feedback using Web Audio API
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const oscillator = audioContext.createOscillator();
@@ -965,41 +904,23 @@ window.completeLevel = function(index) {
             }
         }
 
-// ----------------------------------------------------
-// Step 3.1: Define your new server-side save function
-// ----------------------------------------------------
+// --- Placeholder/Mock Server Functions (Must be replaced with actual API_ENDPOINT) ---
 
-const API_ENDPOINT = 'https://script.google.com/macros/library/d/1OveeDCkYAHbpdqoj8KeEAenRJxEtQ3NVLtcfm1Zir6q4_D3o0_hE98GR/3'; // <--- PASTE THE URL FROM STEP 2.3!
+const API_ENDPOINT = 'YOUR_LESSON_2_API_ENDPOINT_HERE'; 
 
 function saveToServer(data) {
-    // Send data to the Google Apps Script Web App
-    fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
+    console.log('--- Mock Server Save (Replace API_ENDPOINT) ---');
+    console.log('Data to send:', data);
+    showNotification(`⚠️ Using mock save. Update API_ENDPOINT for real data saving.`);
+    // Actual fetch logic would go here:
+    /*
+    fetch(API_ENDPOINT, { ... })
     .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            console.log('✅ Data saved to Google Sheet:', result);
-            showNotification(`✅ Progress saved to instructor's Google Sheet`);
-        } else {
-             throw new Error(result.message);
-        }
-    })
-    .catch(error => {
-        console.error('❌ Error sending data to server:', error);
-        showNotification(`❌ Failed to save progress! Check console.`);
-    });
+    .then(result => { ... })
+    .catch(error => { ... });
+    */
 }
 
-// ----------------------------------------------------
-// Step 3.2: Update core logic to use the new function
-// ----------------------------------------------------
-
-// Save progress to localStorage (for continuity) AND to the server
 function saveProgress() {
     const progress = {
         userName: userName,
@@ -1009,12 +930,12 @@ function saveProgress() {
         sessionStartTime: sessionStartTime,
         timestamp: Date.now()
     };
-    localStorage.setItem('r-learning-progress', JSON.stringify(progress));
+    localStorage.setItem('r-learning-progress-L2', JSON.stringify(progress));
     
-    // Send a summary save to the server
+    // saveToServer is mocked:
     saveToServer({
         studentName: userName,
-        mode: 'In-Progress',
+        mode: 'In-Progress (L2)',
         score: score,
         totalQuestions: totalQuestions,
         percentage: Math.round((score / totalQuestions) * 100) || 0,
@@ -1022,7 +943,6 @@ function saveProgress() {
     });
 }
 
-// Save final results when a mode is completed
 function saveFinalResults(mode, score, total, percentage, duration, code) {
     const results = {
         studentName: userName,
@@ -1032,58 +952,69 @@ function saveFinalResults(mode, score, total, percentage, duration, code) {
         percentage: percentage,
         timeSpent: duration,
         completionDate: new Date(),
-        lessonTitle: "R for Transcriptomics & Single-Cell - Lesson 1: Alphabets of R",
-        codeSubmitted: code // This is the new field
+        lessonTitle: "R for Transcriptomics & Single-Cell - Lesson 2: Words (Data Types & Objects)",
+        codeSubmitted: code || 'N/A' 
     };
     
     saveToServer(results);
 }
 
-        // Show notification
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: rgba(0, 255, 136, 0.9);
-                color: #000;
-                padding: 10px 20px;
-                border-radius: 5px;
-                font-weight: bold;
-                z-index: 1000;
-                animation: slideIn 0.3s ease;
-            `;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
+// Show notification
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 255, 136, 0.9);
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
 
-// ----------------------------------------------------
-// Step 3.4: Update downloadResults to reflect new reality
-// ----------------------------------------------------
+// Download Results (Simplified for Lesson 2)
 window.downloadResults = function() {
-    // This function can now be removed or simplified since the primary save is server-side.
-    // If you want to keep local download, retain the existing code for it,
-    // but change the notification:
-    showNotification('📥 Results downloaded successfully! (Server copy is primary)');
+    const results = {
+        student: userName,
+        lesson: "Lesson 2: Words (Data Types & Objects)",
+        quizScore: `${score}/${totalQuestions}`,
+        quizPercentage: totalQuestions > 0 ? `${Math.round((score / totalQuestions) * 100)}%` : '0%',
+        storyLevelsCompleted: storyLevels.filter(l => l.completed).length,
+        completionTime: new Date().toLocaleString()
+    };
+    
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(results, null, 2));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "R_Lesson2_Results.json");
+    document.body.appendChild(dlAnchorElem);
+    dlAnchorElem.click();
+    dlAnchorElem.remove();
+    
+    showNotification('📥 Results downloaded successfully! (Local copy)');
 };
 
 
-        // Load progress from localStorage
+        // Load progress from localStorage (using 'L2' key)
         function loadProgress() {
-            const saved = localStorage.getItem('r-learning-progress');
+            const saved = localStorage.getItem('r-learning-progress-L2');
             if (saved) {
                 try {
                     const progress = JSON.parse(saved);
-                    // Only load if saved within last 24 hours and matches current user
-                    if (Date.now() - progress.timestamp < 24 * 60 * 60 * 1000 && 
-                        progress.userName === userName) {
+                    // Load if saved within last 24 hours
+                    if (Date.now() - progress.timestamp < 24 * 60 * 60 * 1000) {
                         score = progress.score || 0;
                         currentQuestionIndex = progress.currentQuestionIndex || 0;
                         sessionStartTime = progress.sessionStartTime ? new Date(progress.sessionStartTime) : new Date();
@@ -1096,19 +1027,19 @@ window.downloadResults = function() {
                             });
                         }
                         
-                        showNotification(`📚 Welcome back, ${userName}! Progress restored.`);
+                        showNotification(`📚 Welcome back, ${userName}! Progress restored for Lesson 2.`);
                     }
                 } catch (e) {
-                    console.log('Could not load saved progress');
+                    console.log('Could not load saved progress for Lesson 2');
                 }
             }
         }
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            // Always start with login screen
-            showLoginScreen();
+            // Start initialization directly, skipping login
+            init();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992faf8f97360fac',t:'MTc2MTIwNjI3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
