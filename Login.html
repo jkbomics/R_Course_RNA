@@ -340,28 +340,23 @@
                         📊 Your progress will be automatically saved and tracked
                     </p>
                 </div>
-            `;
-            
+            `;            
             
         }
-
         // Start user session
         window.startSession = function() {
             const nameInput = document.getElementById('userNameInput');
-            const name = nameInput.value.trim();
-            
+            const name = nameInput.value.trim();            
             if (!name) {
                 alert('Please enter your name to continue.');
                 return;
-            }
-            
+            }            
             //window.userName = name;
 			localStorage.clear();
             localStorage.setItem("userName", name);
             localStorage.setItem("sessionStartTime", new Date());
             window.location.href = "./index.html";
         };
-
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
