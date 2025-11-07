@@ -322,52 +322,47 @@
     </div>
 
     <script type="module">
-        
 
         // Show login screen
-        function showLessons() {
+        function showLoginScreen() {
             const contentArea = document.getElementById('contentArea');
-			const name = localStorage.getItem("userName");
-            
-            if (!name) {
-                alert('Please enter your name to continue.');
-                window.location.href = "./Login.html";
-            }
-			//alert(name);
-			contentArea.innerHTML = `
+            contentArea.innerHTML = `
                 <div class="question-card" style="text-align: center;">
                     <h2>🧬 Welcome to R Learning Lab</h2>
                     <p>Enter your name to begin your transcriptomics journey:</p>
-                    <button class="mode-btn" onclick="startLesson(1)" style="margin-top: 15px;">
-                        Lesson 1
-                    </button>
-                    <button class="mode-btn" onclick="startLesson(2)" style="margin-top: 15px;">
-                        Lesson 2
+                    <input type="text" id="userNameInput" class="input-field" placeholder="Enter your full name" 
+                           style="max-width: 300px; margin: 20px auto; display: block;" 
+                           onkeypress="if(event.key==='Enter') startSession()">
+                    <button class="mode-btn" onclick="startSession()" style="margin-top: 15px;">
+                        Start Learning Session
                     </button>
                     <p style="font-size: 0.9em; color: #888; margin-top: 20px;">
                         📊 Your progress will be automatically saved and tracked
                     </p>
                 </div>
-            `;
-            
+            `;            
             
         }
-
         // Start user session
-        window.startLesson = function(No) {
-			//const nameInput = document.getElementById('userNameInput');
-            const name = localStorage.getItem("userName");
-			localStorage.setItem("userName", name);
-			//alert(localStorage.getItem("userName"));
-            window.location.href = "./Lesson" + No + ".html";
+        window.startSession = function() {
+            const nameInput = document.getElementById('userNameInput');
+            const name = nameInput.value.trim();            
+            if (!name) {
+                alert('Please enter your name to continue.');
+                return;
+            }            
+            //window.userName = name;
+			localStorage.clear();
+            localStorage.setItem("userName", name);
+            localStorage.setItem("sessionStartTime", new Date());
+            window.location.href = "./Lessons.html";
         };
-
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Always start with login screen
-            showLessons();
+            showLoginScreen();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992faf8f97360fac',t:'MTc2MTIwNjI3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>	
 </html>
