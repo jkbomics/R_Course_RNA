@@ -493,7 +493,7 @@ Type your R code in the editor above and click "Run Code" to execute.
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
             // Use event.target if available, otherwise find the button manually
             const targetBtn = event ? event.target : document.querySelector(`.mode-btn[onclick*="switchMode('${mode}')"]`);
-            if (targetBtn) targetBtn.classList.add('active');
+            //if (targetBtn) targetBtn.classList.add('active');
             
             // Reset state
             currentQuestionIndex = 0;
