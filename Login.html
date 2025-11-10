@@ -352,9 +352,9 @@
                 return;
             }            
             //window.userName = name;
-			localStorage.clear();
-            localStorage.setItem("userName", name);
-            localStorage.setItem("sessionStartTime", new Date());
+			//localStorage.clear();
+            sessionStorage.setItem("userName", name);
+            sessionStorage.setItem("sessionStartTime", new Date());
             window.location.href = "./Lessons.html";
         };
 

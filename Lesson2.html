@@ -450,7 +450,12 @@ Type your R code in the editor above and click "Run Code" to execute.
         // Initialize the application
         async function init() {
             // NOTE: The login screen is intentionally skipped for Lesson 2
-            
+            const name = sessionStorage.getItem("userName");
+			if (!name) {
+                alert('Please enter your name to continue.');
+                window.location.href = "./Login.html";
+				return;
+            }
             try {
                 // Initialize WebR
                 webR = new WebR();

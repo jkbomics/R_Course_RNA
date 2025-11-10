@@ -447,10 +447,11 @@ Type your R code in the editor above and click "Run Code" to execute.
         // Initialize the application
         async function init() {
             // Check if user is logged in
-            const name = localStorage.getItem("userName");
+            const name = sessionStorage.getItem("userName");
 			if (!name) {
                 alert('Please enter your name to continue.');
                 window.location.href = "./Login.html";
+				return;
             }
 			
             try {
@@ -948,7 +949,7 @@ function saveToServer(data) {
 // Step 3.2: Update core logic to use the new function
 // ----------------------------------------------------
 
-// Save progress to localStorage (for continuity) AND to the server
+// Save progress to sessionStorage (for continuity) AND to the server
 function saveProgress() {
     const progress = {
         userName: userName,
@@ -958,7 +959,7 @@ function saveProgress() {
         sessionStartTime: sessionStartTime,
         timestamp: Date.now()
     };
-    localStorage.setItem('r-learning-progress', JSON.stringify(progress));
+    sessionStorage.setItem('r-learning-progress', JSON.stringify(progress));
     
     // Send a summary save to the server
     saveToServer({
@@ -1024,9 +1025,9 @@ window.downloadResults = function() {
 };
 
 
-        // Load progress from localStorage
+        // Load progress from sessionStorage
         function loadProgress() {
-            const saved = localStorage.getItem('r-learning-progress');
+            const saved = sessionStorage.getItem('r-learning-progress');
             if (saved) {
                 try {
                     const progress = JSON.parse(saved);
