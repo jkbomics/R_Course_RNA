@@ -603,12 +603,7 @@
 
         // Initialize Element SDK
         if (window.elementSdk) {
-			const name = sessionStorage.getItem("userName");
-			if (!name) {
-                alert('Please enter your name to continue.');
-                window.location.href = "./Login.html";
-				return;
-            }
+		
             window.elementSdk.init({
                 defaultConfig,
                 onConfigChange,
@@ -616,6 +611,17 @@
                 mapToEditPanelValues
             });
         }
+		
+		// Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Always start with login screen
+            const name = sessionStorage.getItem("userName");
+			if (!name) {
+                alert('Please enter your name to continue.');
+                window.location.href = "./Login.html";
+				//return;
+            }
+        });
     </script>
  </body>
 </html>
